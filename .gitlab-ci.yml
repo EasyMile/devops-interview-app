@@ -1,0 +1,30 @@
+before_script:
+  - id
+  - docker info
+
+stages:
+  - test
+  - sample-exec
+  - release
+
+test:
+  stage: test
+  script:
+    - docker build -t rusty-sum:latest .
+    - docker run --rm --entrypoint cargo rusty-sum:latest test
+  tags:
+    - docker
+
+sample-exec:
+  stage: sample-exec
+  script:
+    - docker run --rm rusty-sum:latest 2 3
+  tags:
+    - docker
+
+release:
+  stage: release
+  script:
+    - echo "Simulate pushing image to artifact repository or deploying it"
+  tags:
+    - docker
